@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FY27 CA Price Change Status</title>
+<style>
+:root{
+  --blue:#236CFF; --blue-dk:#0B4ED6; --navy:#0D1F45; --ink:#1B2433; --muted:#5B6578;
+  --line:#E3E7EE; --bg:#F4F6FA; --card:#FFFFFF; --soft:#EEF4FF;
+  --green:#108000; --green-bg:#E7F5E3; --amber:#B25E00; --amber-bg:#FFF4D6; --yellow:#FFC000;
+  --red:#C8102E; --red-bg:#FDE8EB; --grey-bg:#EEF0F4;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --navy:#0A1530; --ink:#E6EAF2; --muted:#9AA4B8; --line:#2A3448; --bg:#0F1522; --card:#171F30; --soft:#1C2A48;
+  --green-bg:#16301A; --amber-bg:#3A2C0C; --red-bg:#3A1620; --grey-bg:#232C3E; --green:#5FD35A; --amber:#FFB547; --red:#FF6B7F;
+  color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --navy:#0A1530; --ink:#E6EAF2; --muted:#9AA4B8; --line:#2A3448; --bg:#0F1522; --card:#171F30; --soft:#1C2A48;
+  --green-bg:#16301A; --amber-bg:#3A2C0C; --red-bg:#3A1620; --grey-bg:#232C3E; --green:#5FD35A; --amber:#FFB547; --red:#FF6B7F;
+  color-scheme:dark;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Avenir Next","Avenir","Segoe UI",system-ui,-apple-system,Helvetica,Arial,sans-serif}
+a{color:var(--blue)} a:hover{color:var(--blue-dk)}
+.hero{background:linear-gradient(120deg,#0D1F45 0%,#123C9C 60%,#236CFF 100%);color:#fff;padding:28px 20px 72px}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px}
+.hero .wrap{padding-inline:0}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.8;font-weight:600}
+h1{font-size:clamp(24px,3.4vw,36px);line-height:1.15;margin:6px 0 4px;font-weight:700}
+.sub{opacity:.85;font-size:15px}
+.top{margin-top:-48px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;box-shadow:0 1px 2px rgba(13,31,69,.05),0 6px 18px rgba(13,31,69,.06)}
+.card h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 12px;font-weight:700}
+.status-big{display:flex;align-items:center;gap:14px}
+.light{width:54px;height:54px;border-radius:50%;background:var(--yellow);box-shadow:0 0 0 6px rgba(255,192,0,.22);flex:none}
+.status-big b{font-size:30px;display:block;line-height:1}
+.status-big span{color:var(--muted);font-size:13px}
+.ptg{margin-top:16px;padding:12px 14px;border-left:4px solid var(--yellow);background:var(--amber-bg);border-radius:6px;font-size:14px}
+.ptg strong{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--amber);margin-bottom:2px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.kpi{background:var(--soft);border-radius:10px;padding:12px 14px}
+.kpi .n{font-size:28px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi .l{font-size:12px;color:var(--muted)}
+.kpi.done .n{color:var(--green)} .kpi.prog .n{color:var(--blue)} .kpi.due .n{color:var(--red)}
+.bar{display:flex;height:10px;border-radius:6px;overflow:hidden;background:var(--grey-bg);margin-top:16px}
+.bar i{display:block}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--muted);margin-top:8px}
+.legend span::before{content:"";display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;background:var(--c)}
+.grid2{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:16px;margin-top:16px}
+ul.prog{margin:0;padding-left:0;list-style:none}
+ul.prog li{position:relative;padding:0 0 12px 22px}
+ul.prog li::before{content:"";position:absolute;left:0;top:7px;width:10px;height:10px;border-radius:50%;background:var(--blue)}
+ol.ai{margin:0;padding:0;list-style:none;counter-reset:a}
+ol.ai li{counter-increment:a;display:flex;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+ol.ai li:first-child{border-top:0;padding-top:0}
+ol.ai li::before{content:counter(a);flex:none;width:24px;height:24px;border-radius:50%;background:var(--blue);color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center;margin-top:1px}
+.who{font-weight:600}
+.due-tag{display:inline-block;font-size:11px;font-weight:700;padding:1px 8px;border-radius:999px;background:var(--amber-bg);color:var(--amber);margin-left:4px;white-space:nowrap}
+.sync{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:16px}
+.btn{display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#fff!important;text-decoration:none;font-weight:600;font-size:13px;line-height:1;padding:7px 14px;border-radius:999px}
+.btn:hover{background:var(--blue-dk)}
+.pass{font-size:14px;color:var(--muted)} .pass code{font:600 14px ui-monospace,Menlo,Consolas,monospace;color:var(--ink);background:var(--grey-bg);padding:3px 8px;border-radius:6px}
+.section-h{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin:36px 0 12px}
+.section-h h2{font-size:22px;margin:0;color:var(--ink);text-transform:none;letter-spacing:0}
+.section-h p{margin:2px 0 0;color:var(--muted);font-size:13px}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chipbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;font:inherit;font-size:13px;cursor:pointer}
+.chipbtn[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
+input[type=search]{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 14px;font:inherit;font-size:13px;min-width:0;width:200px}
+.ws{margin-bottom:14px;padding:0;overflow:hidden}
+.ws summary{list-style:none;cursor:pointer;display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding:14px 20px}
+.ws summary::-webkit-details-marker{display:none}
+.ws summary .t{font-weight:700;font-size:16px;flex:1 1 220px}
+.ws summary .t::before{content:"▸";display:inline-block;margin-right:8px;color:var(--blue);transition:transform .15s}
+.ws[open] summary .t::before{transform:rotate(90deg)}
+.ws summary .m{font-size:13px;color:var(--muted)}
+.mini{display:flex;width:120px;height:6px;border-radius:4px;overflow:hidden;background:var(--grey-bg)}
+.tbl{overflow-x:auto;border-top:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:760px}
+th{text-align:left;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:10px 14px;background:var(--soft)}
+td{padding:10px 14px;border-top:1px solid var(--line);vertical-align:top}
+td.date{white-space:nowrap;font-variant-numeric:tabular-nums}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;white-space:nowrap}
+.s-complete{background:var(--green-bg);color:var(--green)}
+.s-inprogress{background:var(--soft);color:var(--blue)}
+.s-notstarted{background:var(--grey-bg);color:var(--muted)}
+.s-none{color:var(--muted)}
+.late{display:inline-block;margin-left:6px;font-size:11px;font-weight:700;color:var(--red);background:var(--red-bg);padding:1px 7px;border-radius:999px;white-space:nowrap}
+.note{font-size:12px;font-weight:700;color:var(--amber);background:var(--amber-bg);padding:2px 8px;border-radius:999px}
+.empty{padding:14px 20px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+footer{color:var(--muted);font-size:12px;padding:28px 0 40px;text-align:center}
+@media (max-width:860px){.top,.grid2{grid-template-columns:minmax(0,1fr)} .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Canada · FY27 Price Change Program</div>
+    <h1>FY27 CA Price Change – Status Update</h1>
+    <div class="sub">October 20, 2026</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="top">
+    <div class="card">
+      <h2>Program status</h2>
+      <div class="status-big"><div class="light" aria-hidden="true"></div><div><b>Yellow</b><span>At risk – needs action to return to green</span></div></div>
+      <div class="ptg"><strong>Path to green</strong>Resolution on Pricing Ops deliverables (either provide plan or change date), get a plan in place for SMB Payroll and DT price change communications</div>
+    </div>
+    <div class="card">
+      <h2>Program plan at a glance</h2>
+      <div class="kpis" id="kpis"></div>
+      <div class="bar" id="bar"></div>
+      <div class="legend"><span style="--c:var(--green)">Complete</span><span style="--c:var(--blue)">In progress</span><span style="--c:#B8C0CE">Not started / no status</span></div>
+    </div>
+  </section>
+
+  <section class="grid2">
+    <div class="card">
+      <h2>Progress</h2>
+      <ul class="prog">
+        <li>There’s currently no negative VOA regarding Oct 1 implementation of QBDT Accountant Bundle price change. Since the increase has been implemented, the DTM sales team has taken the opportunity to leverage the moment to engage their accounts. They've seen some positive results in both opportunities and engagements.</li>
+        <li>CA SLT reviewed the <a href="https://docs.google.com/presentation/d/1cjwzEzW_jm3WImQCImsgCRE7DxKp56ppVigXXWSduPE/edit?usp=sharing" target="_blank" rel="noopener">CA FY27 Accountant Price Increase PoAP</a>. The team is aligned, and there was an ask from Sales to provide extra support for objection handling and generating excitement around the October release, so the team can more easily connect price to value.</li>
+        <li>The <a href="https://github.intuit.com/pages/vpatel12/ca-price-rise-readiness/" target="_blank" rel="noopener">Sales Readiness plan</a> has been drafted. The CS Readiness plan will be ready Oct 26.</li>
+      </ul>
+      <h2 style="margin-top:8px">Most recent team sync</h2>
+      <div class="sync">
+        <a class="btn" href="https://intuit.zoom.us/rec/share/Q1IZ0A8KjzjUZzZOTQisOdItLKS7CS8Hz-2uNkTf8LStWOpDVKZToUgRd-UwV7nV.80SEhvO9GTZop3A8" target="_blank" rel="noopener">▶ Watch recording</a>
+        <span class="pass">Passcode <code>+4.LX02d</code></span>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Action items</h2>
+      <ol class="ai">
+        <li><div><span class="who">Kiera</span> share Accountant communication draft <span class="due-tag">EOD Tue Oct 20</span></div></li>
+        <li><div><span class="who">Kiera</span> connect with Vivek regarding additional Sales support for connecting price to value</div></li>
+        <li><div><span class="who">Prashant and Stefanie</span> connect to review dates and requirements for IRP Lite Requests (QBO / DT Promo end dates + NTTF Holdout criteria). IRP Lite Request were scheduled for Oct 19, however this date may move now that NTTF is launching Mar 4 2027</div></li>
+        <li><div><span class="who">Winnie and Kiera</span>, <span class="due-tag">by Oct 23</span> draft plan for Payroll communication, scheduled for Dec 1, that integrates Contractor Payments launching Dec 15, and for SMB DT communication, scheduled for Dec 1.</div></li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="section-h">
+    <div><h2>Cross-functional Program Plan</h2><p>Workback plan by workstream · “Past due” = end date before Oct 20, 2026 and not complete</p></div>
+    <div class="controls" role="group" aria-label="Filter by status">
+      <button class="chipbtn" data-f="all" aria-pressed="true">All</button>
+      <button class="chipbtn" data-f="In progress" aria-pressed="false">In progress</button>
+      <button class="chipbtn" data-f="Not started" aria-pressed="false">Not started</button>
+      <button class="chipbtn" data-f="Complete" aria-pressed="false">Complete</button>
+      <button class="chipbtn" data-f="late" aria-pressed="false">Past due</button>
+      <input type="search" id="q" placeholder="Search task or driver" aria-label="Search">
+      <button class="chipbtn" id="tog">Collapse all</button>
+    </div>
+  </div>
+  <div id="plan"></div>
+</main>
+<footer class="wrap">Source: CA FY27 Price Change Implementation Program Binder · Workback Plan · Updated October 20, 2026</footer>
+
+<script>
+const PLAN = [{"name": "Program Management", "driver": "Jody Jolly", "note": "", "items": [{"t": "Define workstream, drivers, workback plan", "d": "Jody Jolly", "team": "PgM", "end": "2026-09-11", "s": "Complete", "doc": "", "link": ""}, {"t": "Set up weekly op mech", "d": "Jody Jolly", "team": "PgM", "end": "2026-09-11", "s": "Complete", "doc": "", "link": ""}, {"t": "Intermittent email program updates", "d": "Jody Jolly", "team": "PgM", "end": "2027-04-30", "s": "In progress", "doc": "", "link": ""}, {"t": "Post implementation monitoring op mech - define", "d": "Anthony Lawrence", "team": "PgM", "end": "TBD", "s": "Not started", "doc": "", "link": ""}]}, {"name": "Pricing - strategy", "driver": "Gustavo Rivera Bazan", "note": "", "items": [{"t": "Pricing Strategy & Recommendation", "d": "Gustavo Rivera Bazan", "team": "PMM", "end": "2026-09-04", "s": "Complete", "doc": "", "link": ""}, {"t": "SLT Pricing Reco Signoff", "d": "Gustavo Rivera Bazan", "team": "PMM", "end": "2026-09-04", "s": "Complete", "doc": "FY27 Price Recommendations - Canada", "link": "https://docs.google.com/presentation/d/15bXvnz2OUNFHJAw4HaH4JQQvIuEjAYbWbJf2i-Ri1e0/edit?usp=sharing"}, {"t": "GTM Finance office hours", "d": "Gustavo Rivera Bazan", "team": "PMM", "end": "2026-09-01", "s": "Complete", "doc": "", "link": ""}, {"t": "DECISION: Timing change - NTTF to March 2027", "d": "Gustavo Rivera Bazan", "team": "PMM", "end": "2026-09-11", "s": "Complete", "doc": "", "link": ""}]}, {"name": "Accountant Comms", "driver": "Kiera Toole", "note": "", "items": [{"t": "Review GTM w/ CAN SLT", "d": "Kiera Toole", "team": "PMM", "end": "2026-10-08", "s": "Complete", "doc": "", "link": ""}, {"t": "Cross-functional team review/feedback", "d": "Kiera Toole", "team": "PMM", "end": "2026-10-19", "s": "In progress", "doc": "", "link": ""}, {"t": "French Translation", "d": "Kiera Toole", "team": "PMM", "end": "2026-10-26", "s": "Not started", "doc": "", "link": ""}, {"t": "SLT reviews start", "d": "Kiera Toole", "team": "PMM", "end": "2026-11-02", "s": "Not started", "doc": "", "link": ""}, {"t": "SLT final approval / sign off", "d": "Kiera Toole", "team": "PMM", "end": "2026-11-06", "s": "Not started", "doc": "", "link": ""}, {"t": "Content & List handoff to Portage", "d": "Kiera Toole", "team": "PMM", "end": "2026-11-09", "s": "Not started", "doc": "", "link": ""}, {"t": "Comms deployment", "d": "Kiera Toole", "team": "PMM", "end": "2026-11-24", "s": "Not started", "doc": "", "link": ""}]}, {"name": "SMB / Payroll / QBDT Comms", "driver": "Anthony Lawrence", "note": "DATES FPO ONLY", "items": [{"t": "Payroll comms", "d": "Winnie Dang", "team": "PMM", "end": "2026-12-01", "s": "Not started", "doc": "", "link": ""}, {"t": "QBDT comms", "d": "Kiera Toole", "team": "PMM", "end": "2026-12-01", "s": "Not started", "doc": "", "link": ""}, {"t": "QBO SMB comms", "d": "Aman Doshi", "team": "PMM", "end": "2027-01-08", "s": "Not started", "doc": "", "link": ""}, {"t": "Saves / retention plan", "d": "Anthony Lawrence", "team": "PMM", "end": "2027-02-28", "s": "Not started", "doc": "", "link": ""}, {"t": "Customer comms & FAQ - draft (with Comms, product, Mktg)", "d": "Anthony Lawrence", "team": "PMM", "end": "", "s": "Not started", "doc": "", "link": ""}, {"t": "Internal comms plan and delivery", "d": "Anthony Lawrence", "team": "PMM", "end": "2027-03-05", "s": "Not started", "doc": "", "link": ""}, {"t": "Legal & Rev Rec review", "d": "Yovan Grulovic Connie Gong Jin Seong Kim", "team": "Legal\nGTM Finance", "end": "", "s": "Not started", "doc": "", "link": ""}, {"t": "Direct & QBOP comms", "d": "Anthony Lawrence", "team": "", "end": "2027-02-25", "s": "Not started", "doc": "", "link": ""}, {"t": "Posting FAQ support article", "d": "Anthony Lawrence", "team": "", "end": "", "s": "", "doc": "", "link": ""}]}, {"name": "Marketing - web / promo strategy", "driver": "Prashant Gandhi", "note": "", "items": [{"t": "Web updates", "d": "Prashant Gandhi", "team": "Marketing", "end": "2026-11-02", "s": "Not started", "doc": "", "link": ""}, {"t": "Define holdout test framework", "d": "Gustavo Rivera Bazan", "team": "PMM", "end": "", "s": "Not started", "doc": "", "link": ""}, {"t": "Alignment of direct/we promo offer to NTTF pricing changes", "d": "Prashant Gandhi", "team": "Marketing", "end": "", "s": "Not started", "doc": "", "link": ""}, {"t": "Promotion Governance", "d": "Gustavo Rivera Bazan", "team": "PMM", "end": "", "s": "Not started", "doc": "", "link": ""}, {"t": "Set up & management of holdout groups", "d": "Prashant Gandhi", "team": "Marketing", "end": "", "s": "Not started", "doc": "", "link": ""}]}, {"name": "CS Enablement", "driver": "Mohammed Sheraze", "note": "", "items": [{"t": "Accountant comms review", "d": "Mohammed Sheraze", "team": "CS", "end": "2026-10-26", "s": "Not started", "doc": "", "link": ""}, {"t": "Accountant price increase comms alert", "d": "Mohammed Sheraze", "team": "CS", "end": "2026-11-10", "s": "Not started", "doc": "", "link": ""}, {"t": "Volume demand planning", "d": "Mohammed Sheraze", "team": "CS", "end": "2026-11-30", "s": "In progress", "doc": "", "link": ""}, {"t": "Saves team readienss", "d": "Mohammed Sheraze", "team": "CS", "end": "2026-12-15", "s": "Not started", "doc": "", "link": ""}, {"t": "Payroll price reminder increase alert", "d": "Mohammed Sheraze", "team": "CS", "end": "2026-12-15", "s": "Not started", "doc": "", "link": ""}, {"t": "Partner & Portal readiness", "d": "Mohammed Sheraze", "team": "CS", "end": "2026-12-15", "s": "Not started", "doc": "", "link": ""}, {"t": "Price increase KB/FAQ", "d": "Mohammed Sheraze", "team": "CS", "end": "2026-12-15", "s": "Not started", "doc": "", "link": ""}, {"t": "VOE/VOC collection plan", "d": "Mohammed Sheraze", "team": "CS", "end": "2026-12-31", "s": "Not started", "doc": "", "link": ""}, {"t": "Expert readiness and alert", "d": "Mohammed Sheraze", "team": "CS", "end": "2027-02-28", "s": "Not started", "doc": "", "link": ""}, {"t": "QBO/QBDT price increase reminder alert", "d": "Mohammed Sheraze", "team": "CS", "end": "2027-03-15", "s": "Not started", "doc": "", "link": ""}]}, {"name": "Sales Enablement", "driver": "Vivek Patel", "note": "", "items": [{"t": "Sales Enablement plan", "d": "Vivek Patel", "team": "Enablement", "end": "2026-10-03", "s": "Complete", "doc": "https://github.intuit.com/pages/vpatel12/ca-price-rise-readiness/", "link": "https://github.intuit.com/pages/vpatel12/ca-price-rise-readiness/"}, {"t": "Conversation guide - Accountant + Payroll", "d": "Vivek Patel", "team": "Enablement", "end": "2026-10-31", "s": "In progress", "doc": "https://docs.google.com/document/d/1wgEp6jEbYIhodUbRLGkeI50MRgF7I1AA/edit", "link": "https://docs.google.com/document/d/1wgEp6jEbYIhodUbRLGkeI50MRgF7I1AA/edit"}, {"t": "Escalation tracker live (VOE/VOC capture)", "d": "Vivek Patel", "team": "Enablement", "end": "2026-11-06", "s": "In progress", "doc": "https://docs.google.com/spreadsheets/d/1klFPJNwT7lAJKhWTRHeVGduWn62qMqjO/edit", "link": "https://docs.google.com/spreadsheets/d/1klFPJNwT7lAJKhWTRHeVGduWn62qMqjO/edit"}, {"t": "Seller kickoff session - accountant-facing teams", "d": "Vivek Patel", "team": "Enablement", "end": "2026-11-10", "s": "Not started", "doc": "https://docs.google.com/presentation/d/1UvA-aLLyWjv4VTLXpIjKdPDVdZ7qiziAd1-dMdBf7MY/edit", "link": "https://docs.google.com/presentation/d/1UvA-aLLyWjv4VTLXpIjKdPDVdZ7qiziAd1-dMdBf7MY/edit"}, {"t": "Accountant courtesy call window", "d": "Vivek Patel", "team": "Enablement", "end": "2026-11-20", "s": "Not started", "doc": "", "link": ""}, {"t": "Guide + tracker share-out - full CA sales org", "d": "Vivek Patel", "team": "Enablement", "end": "2026-11-10", "s": "Not started", "doc": "", "link": ""}, {"t": "Payroll wave refresh - guide appendix + Slack drop", "d": "Vivek Patel", "team": "Enablement", "end": "2027-01-12", "s": "Not started", "doc": "", "link": ""}, {"t": "Desktop migration talking points (ACCT DTM / MM ACQ)", "d": "Vivek Patel", "team": "Enablement", "end": "2027-01-23", "s": "Not started", "doc": "", "link": ""}, {"t": "QBO wave refresh - guide appendix + Slack drop", "d": "Vivek Patel", "team": "Enablement", "end": "2027-02-18", "s": "Not started", "doc": "", "link": ""}, {"t": "Billing-wave escalation review", "d": "Vivek Patel", "team": "Enablement", "end": "2027-04-08", "s": "Not started", "doc": "", "link": ""}]}, {"name": "Pricing Ops - NTTF", "driver": "Jim Conley Stefanie Nimick", "note": "", "items": [{"t": "QBO NTTF holdout criteria decided", "d": "Prashant Gandhi", "team": "Marketing", "end": "2026-10-15", "s": "Complete", "doc": "", "link": ""}, {"t": "QBO / DT Promo end dates decided for offer build", "d": "Prashant Gandhi", "team": "Marketing", "end": "2026-10-30", "s": "Not started", "doc": "", "link": ""}, {"t": "IRP Lites submitted", "d": "Prashant Gandhi", "team": "PMM", "end": "2026-10-30", "s": "Not started", "doc": "", "link": ""}, {"t": "Build offers - QBOP", "d": "Stefanie Nimick", "team": "Growth Systems", "end": "2026-10-26", "s": "Not started", "doc": "", "link": ""}, {"t": "Build offers - QBDT", "d": "Stefanie Nimick", "team": "Growth Systems", "end": "2027-01-11", "s": "Not started", "doc": "", "link": ""}, {"t": "Build offers - QBO", "d": "Stefanie Nimick", "team": "Growth Systems", "end": "2027-01-11", "s": "Not started", "doc": "", "link": ""}, {"t": "Offers go-live - QBOP", "d": "Stefanie Nimick", "team": "Growth Systems", "end": "2027-01-15", "s": "Not started", "doc": "", "link": ""}, {"t": "Offers go-live - QBDT", "d": "Stefanie Nimick", "team": "Growth Systems", "end": "2027-03-04", "s": "Not started", "doc": "", "link": ""}, {"t": "Offers go-live - QBO", "d": "Stefanie Nimick", "team": "Growth Systems", "end": "2027-03-04", "s": "Not started", "doc": "", "link": ""}, {"t": "Offers go-live SFDC - QBOP", "d": "Stefanie Nimick", "team": "Growth Systems", "end": "2027-01-15", "s": "Not started", "doc": "", "link": ""}, {"t": "Offers go-live SFDC - QBO", "d": "Stefanie Nimick", "team": "Growth Systems", "end": "2027-03-04", "s": "Not started", "doc": "", "link": ""}]}, {"name": "Marketing Analytics", "driver": "Shilei Chen", "note": "", "items": [{"t": "Analytics plan", "d": "Shilei Chen", "team": "Analytics", "end": "2026-10-31", "s": "Not started", "doc": "", "link": ""}, {"t": "Performance analysis: GNS/churn analysis", "d": "Shilei Chen", "team": "Analytics", "end": "TBD", "s": "Not started", "doc": "", "link": ""}, {"t": "Audience reconciliation (vs. billing PCT; return missing company IDs)", "d": "Shilei Chen", "team": "Analytics", "end": "TBD", "s": "Not started", "doc": "", "link": ""}, {"t": "Implementation of NTTF holdout plan (with web)", "d": "Shilei Chen", "team": "Analytics", "end": "TBD", "s": "Not started", "doc": "", "link": ""}]}, {"name": "Marketing - scope of work & exceptions (for BASE)", "driver": "Anthony Lawrence", "note": "", "items": [{"t": "QBO Payroll:  ID in/out of scope;  non-standard pricing", "d": "", "team": "", "end": "2026-10-30", "s": "Not started", "doc": "", "link": ""}, {"t": "QBDT:  ID in/out of scope;  non-standard pricing", "d": "", "team": "", "end": "2026-12-31", "s": "Not started", "doc": "", "link": ""}, {"t": "QBO:  ID in/out of scope;  non-standard pricing", "d": "", "team": "", "end": "2027-01-31", "s": "Not started", "doc": "", "link": ""}]}, {"name": "Pricing Ops - BASE", "driver": "Jim Conley Tanya Dragan", "note": "", "items": [{"t": "SMB comm content from marketing for QBOP", "d": "Anthony Lawrence", "team": "Marketing", "end": "2026-11-15", "s": "Not started", "doc": "", "link": ""}, {"t": "SMB comm drop for QBOP", "d": "Tanya Dragan, Jim Conley", "team": "Growth Systems", "end": "2026-12-01", "s": "Not started", "doc": "", "link": ""}, {"t": "QBOP Billing starts", "d": "Tanya Dragan", "team": "Marketing", "end": "2026-01-15", "s": "Not started", "doc": "", "link": ""}, {"t": "SMB comm content from marketing for QBDT", "d": "Anthony Lawrence", "team": "Marketing", "end": "2026-01-15", "s": "Not started", "doc": "", "link": ""}, {"t": "SMB comm drop for QBDT", "d": "Tanya Dragan, Jim Conley", "team": "Growth Systems", "end": "2026-01-31", "s": "Not started", "doc": "", "link": ""}, {"t": "QBDT Billing starts", "d": "Tanya Dragan", "team": "Growth Systems", "end": "2027-04-01", "s": "Not started", "doc": "", "link": ""}, {"t": "SMB comm content from marketing for QBO", "d": "Anthony Lawrence", "team": "Marketing", "end": "2026-02-10", "s": "Not started", "doc": "", "link": ""}, {"t": "SMB comm drop for QBO", "d": "Tanya Dragan, Jim Conley", "team": "Growth Systems", "end": "2027-02-25", "s": "Not started", "doc": "FY26 Price Change Notice", "link": "https://docs.google.com/document/d/1UVx4U9gveYR7wSc-UQkiqkc8OMlJJ5174Gtc_xJPKxs/edit?tab=t.inv3dgf9f4g0"}, {"t": "QBO Billing starts", "d": "Tanya Dragan", "team": "Growth Systems", "end": "2027-04-01", "s": "Not started", "doc": "", "link": ""}]}, {"name": "Finance (Placeholder for items)", "driver": "Richard Gayle", "note": "", "items": []}];
+const TODAY = "2026-10-20";
+const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const isDate=s=>/^\d{4}-\d{2}-\d{2}$/.test(s);
+const fmt=s=>{if(!isDate(s))return s||"—";const[y,m,d]=s.split("-");return `${MON[+m-1]} ${+d}, ${y}`};
+const late=it=>isDate(it.end)&&it.end<TODAY&&it.s!=="Complete";
+const cls=s=>s==="Complete"?"s-complete":s==="In progress"?"s-inprogress":s==="Not started"?"s-notstarted":"s-none";
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const all=PLAN.flatMap(g=>g.items);
+const cnt={c:all.filter(i=>i.s==="Complete").length,p:all.filter(i=>i.s==="In progress").length,l:all.filter(late).length};
+cnt.t=all.length; cnt.o=cnt.t-cnt.c-cnt.p;
+document.getElementById("kpis").innerHTML=
+ `<div class="kpi"><div class="n">${cnt.t}</div><div class="l">Total deliverables</div></div>
+  <div class="kpi done"><div class="n">${cnt.c}</div><div class="l">Complete</div></div>
+  <div class="kpi prog"><div class="n">${cnt.p}</div><div class="l">In progress</div></div>
+  <div class="kpi due"><div class="n">${cnt.l}</div><div class="l">Past due</div></div>`;
+const seg=(c,p,t)=>`<i style="width:${c/t*100}%;background:var(--green)"></i><i style="width:${p/t*100}%;background:var(--blue)"></i>`;
+document.getElementById("bar").innerHTML=seg(cnt.c,cnt.p,cnt.t);
+
+let filter="all", q="";
+function render(){
+  const out=PLAN.map(g=>{
+    const items=g.items.filter(it=>(filter==="all"||(filter==="late"?late(it):it.s===filter))&&(!q||(it.t+" "+it.d+" "+it.team).toLowerCase().includes(q)));
+    if((filter!=="all"||q)&&!items.length)return "";
+    const c=g.items.filter(i=>i.s==="Complete").length,p=g.items.filter(i=>i.s==="In progress").length,n=g.items.length;
+    const rows=items.map(it=>`<tr><td>${esc(it.t)}</td><td>${esc(it.d||"—")}</td><td>${esc(it.team||"—")}</td>
+      <td class="date">${esc(fmt(it.end))}${late(it)?'<span class="late">Past due</span>':""}</td>
+      <td><span class="pill ${cls(it.s)}">${esc(it.s||"No status")}</span></td>
+      <td>${it.link?`<a href="${esc(it.link)}" target="_blank" rel="noopener">${esc(it.doc.startsWith("http")?"Open link":it.doc)}</a>`:esc(it.doc||"")}</td></tr>`).join("");
+    return `<details class="card ws" open><summary><span class="t">${esc(g.name)}</span>
+      ${g.note?`<span class="note">${esc(g.note)}</span>`:""}
+      <span class="m">Driver: ${esc(g.driver||"—")}</span>
+      <span class="m">${c}/${n} complete</span>${n?`<span class="mini">${seg(c,p,n)}</span>`:""}</summary>
+      ${items.length?`<div class="tbl"><table><thead><tr><th>Deliverable / Task</th><th>Driver</th><th>Driving team</th><th>End date</th><th>Status</th><th>Documentation</th></tr></thead><tbody>${rows}</tbody></table></div>`
+      :`<div class="empty">No deliverables added yet.</div>`}</details>`;
+  }).join("");
+  document.getElementById("plan").innerHTML=out||`<div class="card empty">No deliverables match.</div>`;
+}
+document.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{filter=b.dataset.f;document.querySelectorAll("[data-f]").forEach(x=>x.setAttribute("aria-pressed",x===b));render()});
+document.getElementById("q").oninput=e=>{q=e.target.value.trim().toLowerCase();render()};
+const tog=document.getElementById("tog");
+tog.onclick=()=>{const open=tog.textContent==="Expand all";document.querySelectorAll(".ws").forEach(d=>d.open=open);tog.textContent=open?"Collapse all":"Expand all"};
+render();
+</script>
+</body>
+</html>
